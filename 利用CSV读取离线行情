@@ -1,1 +1,16 @@
-
+# 加载 zoo 时间序列包
+library(zoo)
+library(quantmod)
+# 配置文件路径
+filePath = '/Users/harryzhu/temp.csv'
+# 读取CSV并转化时间格式
+csv <- read.csv(filePath,header=TRUE,sep=",")
+csv$LZ_GPA_QUOTE_TCLOSE <- as.POSIXct(as.character(csv$LZ_GPA_QUOTE_TCLOSE),tz="",format="%Y%m%d")
+# 转化为zoo类型
+temp = read.zoo(csv) 
+# 转化我xts类型
+payh =as.xts(temp[,1]);colnames(payh)="Close"
+# 制图
+chartSeries(payh,name="000001.SZ") 
+# 添加MACD曲线
+addMACD() 
